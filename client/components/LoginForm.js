@@ -15,6 +15,12 @@ class LoginForm extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.data.user && this.props.data.user) {
+      hashHistory.push('/dashboard');
+    }
+  }
+
   onSubmit({ email, password }) {
     this.props
       .mutate({
@@ -26,7 +32,6 @@ class LoginForm extends Component {
       })
       .then(() => {
         this.setState({ errors: [] });
-        hashHistory.push('/');
       })
       .catch((res) => {
         const errors = res.graphQLErrors.map((error) => error.message);
